@@ -1,8 +1,12 @@
 {
   "name": "teeebor/decoy-framework",
   "autoload": {
-	"psr-0": {
+	"psr-4": {
 	  "decoy\\": "/"
 	}
+  },
+  "require": {
+	"doctrine/orm": "2.4.*",
+	"symfony/yaml": "2.*"
   }
 }
