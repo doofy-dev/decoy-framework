@@ -1,6 +1,5 @@
 <?php
 /**
- * Created by PhpStorm.
  * User: Tibi
  * Date: 2015.11.18.
  * Time: 15:06
@@ -9,10 +8,6 @@
 namespace decoy\utils\httpHeader;
 
 
-/**
- * Class HttpHeader
- * @package decoy\utils\httpHeader
- */
 /**
  * Class HttpHeader
  * @package decoy\utils\httpHeader

@@ -1,6 +1,5 @@
 <?php
 /**
- * Created by PhpStorm.
  * User: Tibi
  * Date: 2015.11.20.
  * Time: 11:43

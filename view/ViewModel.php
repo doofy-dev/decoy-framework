@@ -1,6 +1,5 @@
 <?php
 /**
- * Created by PhpStorm.
  * User: Tibi
  * Date: 2015.11.18.
  * Time: 7:53
@@ -119,6 +118,9 @@ class ViewModel
 		$this->template = $name;
 	}
 
+	/**
+	 * @return HeadMeta
+	 */
 	public function headMeta()
 	{
 		if (ViewModel::$headMeta == null)
@@ -126,6 +128,9 @@ class ViewModel
 		return ViewModel::$headMeta;
 	}
 
+	/**
+	 * @return HeadScript
+	 */
 	public function headScript()
 	{
 		if (ViewModel::$headScript == null)
@@ -133,25 +138,43 @@ class ViewModel
 		return ViewModel::$headScript;
 	}
 
+	/**
+	 * @return HeadLink
+	 */
 	public function headLink()
 	{
 		if (ViewModel::$headLink == null)
 			ViewModel::$headLink = new HeadLink();
 		return ViewModel::$headLink;
 	}
+
+	/**
+	 * @param $string
+	 * @return string
+	 */
 	public function translate($string){
 		return ViewModel::$translator->translate($string);
 	}
+
+	/**
+	 * @return string
+	 */
 	public function doctype()
 	{
 		return "<!DOCTYPE " . ViewModel::$doctype . ">";
 	}
 
+	/**
+	 * @param $doctype
+	 */
 	public function setDoctype($doctype)
 	{
 		ViewModel::$doctype = $doctype;
 	}
 
+	/**
+	 *
+	 */
 	function backtrace()
 	{
 		$bt = debug_backtrace();
@@ -191,6 +214,11 @@ class ViewModel
 			$result .= "<br /><br />";
 		}
 	}
+
+	/**
+	 * @param $value
+	 * @return bool
+	 */
 	private function canBeString($value)
 	{
 		if (is_object($value) and method_exists($value, '__toString')) return true;
@@ -199,6 +227,11 @@ class ViewModel
 
 		return is_scalar($value);
 	}
+
+	/**
+	 * @param $key
+	 * @return null
+	 */
 	public function globalConfig($key){
 		if(array_key_exists($key,ViewModel::$config))
 			return ViewModel::$config[$key];
@@ -209,8 +242,7 @@ class ViewModel
 	 * @return string
 	 * @throws \Exception if the template was not found
 	 */
-	public
-	function render()
+	public function render()
 	{
 		$path = $this->template;
 		if (array_key_exists($path, ViewModel::$availableTemplates)) {
@@ -227,8 +259,11 @@ class ViewModel
 		}
 	}
 
-	public
-	function __toString()
+	/**
+	 * @return string
+	 * @throws \Exception
+	 */
+	public function __toString()
 	{
 		return $this->render();
 	}

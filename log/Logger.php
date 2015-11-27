@@ -1,6 +1,5 @@
 <?php
 /**
- * Created by PhpStorm.
  * User: Tibi
  * Date: 2015.11.19.
  * Time: 11:23
@@ -9,8 +8,16 @@
 namespace decoy\log;
 
 
+/**
+ * Class Logger
+ * @package decoy\log
+ */
 class Logger
 {
+	/**
+	 * @param $file
+	 * @param $message
+	 */
 	public static function Log($file, $message)
 	{
 		if(!file_exists(realpath($file)))
@@ -19,6 +26,9 @@ class Logger
 		file_put_contents($file,"\r\n".'['.$date->format('Y-m-d H:i:s').'] '.$message,FILE_APPEND);
 	}
 
+	/**
+	 * @param $path
+	 */
 	public static function mkdirs($path)
 	{
 		$expl = explode('/(\/|\\)/i', $path);

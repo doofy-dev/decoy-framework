@@ -1,6 +1,5 @@
 <?php
 /**
- * Created by PhpStorm.
  * User: Tibi
  * Date: 2015.11.23.
  * Time: 15:24
@@ -9,6 +8,10 @@
 namespace decoy\loader;
 
 
+/**
+ * Class Autoloader
+ * @package decoy\loader
+ */
 class Autoloader
 {
 	/**
@@ -19,6 +22,9 @@ class Autoloader
 		spl_autoload_register('self::load');
 	}
 
+	/**
+	 * @param $className
+	 */
 	public static function load($className){
 		$ns = explode('\\',$className);
 		$dir = dirname(dirname(dirname(dirname(__DIR__)))).'/src/'.$ns[0].'/src/'.$ns[1].'/'.$ns[2];

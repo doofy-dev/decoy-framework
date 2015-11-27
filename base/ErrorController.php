@@ -1,6 +1,5 @@
 <?php
 /**
- * Created by PhpStorm.
  * User: Tibi
  * Date: 2015.11.20.
  * Time: 11:39
@@ -18,6 +17,9 @@ use decoy\view\ViewModel;
  */
 class ErrorController extends BaseController
 {
+	/**
+	 * @var array
+	 */
 	public static $errors=array();
 	/**
 	 * Bootstrapping the class
@@ -37,6 +39,9 @@ class ErrorController extends BaseController
 		return $model;
 	}
 
+	/**
+	 * @return ViewModel
+	 */
 	public function _notSupported()
 	{
 		$model = new ViewModel('application/error');
@@ -44,6 +49,9 @@ class ErrorController extends BaseController
 		return $model;
 	}
 
+	/**
+	 * @return ViewModel
+	 */
 	public function _notFound(){
 		$model = new ViewModel('application/error');
 		$model->addVariable('error_type','404');

@@ -1,6 +1,5 @@
 <?php
 /**
- * Created by PhpStorm.
  * User: Tibi
  * Date: 2015.11.18.
  * Time: 9:37
@@ -8,11 +7,6 @@
 
 namespace decoy\router;
 
-
-/**
- * Class Router
- * @package decoy\router
- */
 /**
  * Class Router
  * @package decoy\router

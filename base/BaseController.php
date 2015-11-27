@@ -1,6 +1,5 @@
 <?php
 /**
- * Created by PhpStorm.
  * User: Tibi
  * Date: 2015.11.17.
  * Time: 13:58
@@ -41,7 +40,13 @@ class BaseController
 	 */
 	private $result;
 
+	/**
+	 * @var string
+	 */
 	public $identifier;
+	/**
+	 * @var \decoy\utils\Translator
+	 */
 	public $translator;
 
 	/**

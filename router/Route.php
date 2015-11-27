@@ -1,6 +1,5 @@
 <?php
 /**
- * Created by PhpStorm.
  * User: Tibi
  * Date: 2015.11.18.
  * Time: 9:41
@@ -8,11 +7,6 @@
 
 namespace decoy\router;
 
-
-	/**
-	 * Class Route
-	 * @package decoy\router
-	 */
 /**
  * Class Route
  * @package decoy\router
@@ -231,6 +225,10 @@ class Route
 		return -1;
 	}
 
+	/**
+	 * @param $uri
+	 * @param $param
+	 */
 	private function setParamFromURI($uri, $param)
 	{
 		$explodeReal = explode('/', str_replace('.', '/', $uri));
