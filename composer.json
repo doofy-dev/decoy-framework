@@ -1,5 +1,6 @@
 {
   "name": "teeebor/decoy-framework",
+  "license": "MIT",
   "autoload": {
 	"psr-4": {
 	  "decoy\\": "/"
