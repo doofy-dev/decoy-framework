@@ -1,0 +1,8 @@
+{
+  "name": "teeebor/decoy-framework",
+  "autoload": {
+	"psr-0": {
+	  "decoy": ""
+	}
+  }
+}
