@@ -21,7 +21,7 @@ class Autoloader
 
 	public static function load($className){
 		$ns = explode('\\',$className);
-		$dir = dirname(dirname(dirname(__DIR__))).'/src/'.$ns[0].'/src/'.$ns[1].'/'.$ns[2];
+		$dir = dirname(dirname(dirname(dirname(__DIR__)))).'/src/'.$ns[0].'/src/'.$ns[1].'/'.$ns[2];
 		if(file_exists($dir.'.php'))
 			include $dir.'.php';
 	}
