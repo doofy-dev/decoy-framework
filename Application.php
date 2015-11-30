@@ -23,6 +23,9 @@ use decoy\utils\httpHeader\HttpHeader;
 use decoy\utils\httpHeader\JsonResponse;
 use decoy\utils\Translator;
 use decoy\view\ViewModel;
+use Doctrine\Common\Annotations\AnnotationReader;
+use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
+use Doctrine\Common\Annotations\AnnotationRegistry;
 use Symfony\Component\Yaml\Parser;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
@@ -135,7 +138,10 @@ class Application
 		if (array_key_exists('use_database', $this->config))
 			if ($this->config['use_database'] && array_key_exists('Database', $this->config)) {
 				$isDevMode = true;
-				$config = Setup::createAnnotationMetadataConfiguration(array(__DIR__ . "/src/Application/Entity"), $isDevMode);
+				$config = Setup::createConfiguration($isDevMode);
+				$driver = new AnnotationDriver(new AnnotationReader(),array(dirname(dirname(dirname(__DIR__))) . "/src/Application/Entity"));
+				AnnotationRegistry::registerLoader('class_exists');
+				$config->setMetadataDriverImpl($driver);
 
 				$conn = $this->config['Database'];
 				$this->entityManager = EntityManager::create($conn, $config);
@@ -155,9 +161,9 @@ class Application
 		}
 
 		$this->router->addRoute('error_page', new Route(array(
-			'controller' => (array_key_exists('error_page_controller', $this->config) ?
-				$this->config['error_page_controller'] : '\decoy\base\ErrorController'),
-			'route' => 'error'
+				'controller' => (array_key_exists('error_page_controller', $this->config) ?
+						$this->config['error_page_controller'] : '\decoy\base\ErrorController'),
+				'route' => 'error'
 		)));
 
 		$this->requestHeader = new HttpHeader(false);
@@ -189,7 +195,7 @@ class Application
 	public function toRoute($route)
 	{
 		if($this->caller!=null)
-		$this->disableRender[] = $this->caller->identifier;
+			$this->disableRender[] = $this->caller->identifier;
 		$r = $this->router->getRoute($route);
 		if ($r != null) {
 			$this->currentRoute = $r;
