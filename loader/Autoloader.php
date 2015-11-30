@@ -27,7 +27,10 @@ class Autoloader
 	 */
 	public static function load($className){
 		$ns = explode('\\',$className);
-		$dir = dirname(dirname(dirname(dirname(__DIR__)))).'/src/'.$ns[0].'/src/'.$ns[1].'/'.$ns[2];
+		if($ns[1]!="Entity" && $ns[1]!="Repository")
+			$dir = dirname(dirname(dirname(dirname(__DIR__)))).'/src/'.$ns[0].'/src/'.$ns[1].'/'.$ns[2];
+		else
+			$dir = dirname(dirname(dirname(dirname(__DIR__)))).'/src/'.$ns[0].'/'.$ns[1].'/'.$ns[2];
 		if(file_exists($dir.'.php'))
 			include $dir.'.php';
 	}

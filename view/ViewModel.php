@@ -76,10 +76,10 @@ class ViewModel
 	 * Updating the available template paths
 	 * @param array $available
 	 */
-	public function setAvailable(array $available, $translator)
+	public function setAvailable(array $available)
 	{
 		ViewModel::$availableTemplates = $available;
-		ViewModel::$translator = $translator;
+//		ViewModel::$translator = $translator;
 	}
 
 	/**

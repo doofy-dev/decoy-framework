@@ -133,10 +133,10 @@ class BaseController
 	}
 
 	/**
-	 * @return HttpHeader
+	 * @return \Doctrine\ORM\EntityManager
 	 */
-	public function getResponse(){
-		return $this->application->getResponseHeader();
+	public function getEntityManager(){
+		return $this->application->getEntityManager();
 	}
 
 	/**
