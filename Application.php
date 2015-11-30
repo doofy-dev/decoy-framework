@@ -146,7 +146,6 @@ class Application
 				$conn = $this->config['Database'];
 				$this->entityManager = EntityManager::create($conn, $config);
 			}
-		new Autoloader();
 		foreach ($this->config['Modules'] as $module) {
 //			$this->translator->addFolder('src/'.$module.'/language');
 			$path = 'src/' . $module . '/config/config.yml';
@@ -160,6 +159,7 @@ class Application
 			}
 		}
 
+		new Autoloader($this->invokable,$this->config['Modules']);
 		$this->router->addRoute('error_page', new Route(array(
 				'controller' => (array_key_exists('error_page_controller', $this->config) ?
 						$this->config['error_page_controller'] : '\decoy\base\ErrorController'),
