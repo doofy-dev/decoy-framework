@@ -14,17 +14,12 @@ namespace decoy\loader;
  */
 class Autoloader
 {
-	public static $invokables;
-	public static $modules;
 
 	/**
 	 * Autoloader constructor.
-	 * @param array $invokables
 	 */
-	public function __construct(array $invokables, array $modules)
+	public function __construct()
 	{
-		Autoloader::$invokables=$invokables;
-		Autoloader::$modules=$modules;
 		spl_autoload_register('self::load');
 	}
 
@@ -32,22 +27,25 @@ class Autoloader
 	 * @param $className
 	 */
 	public static function load($className){
-		$ns = explode('\\',$className);
 		$root = dirname(dirname(dirname(dirname(__DIR__))));
-		foreach(Autoloader::$invokables as $alias => $namespace){
-			if($namespace==$className){
-				$dir =  $root. '/src/' . $ns[0] . '/' . $ns[1] . '/' . $ns[2];
-				if (file_exists($dir . '.php') && !class_exists($className))
-					require $dir . '.php';
-			}
-		}
-		foreach(Autoloader::$modules as $module){
-			if(strpos($className,$module)!==false){
-				$dir =  $root. '/src/' . $ns[0] . '/' . $ns[1] . '/' . $ns[2];
-				if (file_exists($dir . '.php') && !class_exists($className))
-					require $dir . '.php';
-			}
-		}
+		$path = $root.'/src/'.$className.'.php';
+		if(file_exists($path) && !class_exists($className))
+			require $path;
+
+//		foreach(Autoloader::$invokables as $alias => $namespace){
+//			if($namespace==$className){
+//				$path =  $root. '/src/'.$className.'.php';
+//				if (file_exists($path) && !class_exists($className))
+//					require $path;
+//			}
+//		}
+//		foreach(Autoloader::$modules as $module){
+//			if(strpos($className,$module)!==false){
+//				$dir =  $root. '/src/' . $className;
+//				if (file_exists($dir . '.php') && !class_exists($className))
+//					require $dir . '.php';
+//			}
+//		}
 
 	}
 }
