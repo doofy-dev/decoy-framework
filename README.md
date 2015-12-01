@@ -12,4 +12,4 @@ Simple PHP framework
 ###using command line:
 	composer require teeebor/decoy-framework
 #Demo project source
-[https://github.com/teeebor/decoy-sample](https://github.com/teeebor/decoy-sample)
+[https://github.com/teeebor/decoy-framework-skeleton](https://github.com/teeebor/decoy-framework-skeleton)
