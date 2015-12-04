@@ -72,6 +72,13 @@ class Application
 	 */
 	private $response;
 
+
+	/**
+	 * View rendering switch
+	 * @var bool
+	 */
+	private $enableRender=true;
+
 	/**
 	 * Router interface
 	 * @var Router
@@ -104,7 +111,7 @@ class Application
 	 */
 	private $parser;
 	/**
-	 * @var array
+	 * @var array disable rendering for defined controllers
 	 */
 	private $disableRender = array();
 
@@ -139,7 +146,7 @@ class Application
 			if ($this->config['use_database'] && array_key_exists('Database', $this->config)) {
 				$isDevMode = true;
 				$config = Setup::createConfiguration($isDevMode);
-				$driver = new AnnotationDriver(new AnnotationReader(),array(dirname(dirname(dirname(__DIR__))) . "/src/Application/Entity"));
+				$driver = new AnnotationDriver(new AnnotationReader(), array(dirname(dirname(dirname(__DIR__))) . "/src/Application/Entity"));
 				AnnotationRegistry::registerLoader('class_exists');
 				$config->setMetadataDriverImpl($driver);
 
@@ -159,7 +166,7 @@ class Application
 			}
 		}
 
-		new Autoloader($this->invokable,$this->config['Modules']);
+		new Autoloader($this->invokable, $this->config['Modules']);
 		$this->router->addRoute('error_page', new Route(array(
 				'controller' => (array_key_exists('error_page_controller', $this->config) ?
 						$this->config['error_page_controller'] : '\decoy\base\ErrorController'),
@@ -177,7 +184,6 @@ class Application
 			Logger::Log('log/error.txt', $e->getMessage());
 			\decoy\base\ErrorController::$errors[] = $e->getMessage();
 			$this->toRoute('error_page');
-//			throw new \Exception($e->getMessage());
 		}
 
 		if (count(\decoy\base\ErrorController::$errors) > 0 && $this->config['debug'] == true) {
@@ -194,7 +200,7 @@ class Application
 	 */
 	public function toRoute($route)
 	{
-		if($this->caller!=null)
+		if ($this->caller != null)
 			$this->disableRender[] = $this->caller->identifier;
 		$r = $this->router->getRoute($route);
 		if ($r != null) {
@@ -205,7 +211,6 @@ class Application
 				Logger::Log('log/error.txt', $e->getMessage());
 				\decoy\base\ErrorController::$errors[] = $e->getMessage();
 				$this->toRoute('error_page');
-//			throw new \Exception($e->getMessage());
 			}
 		}
 		$this->caller = null;
@@ -216,8 +221,9 @@ class Application
 	 * All the not saved instance state will lost!
 	 * @param $url
 	 */
-	public function toUrl($url){
-		header('location: '.$url);
+	public function toUrl($url)
+	{
+		header('location: ' . $url);
 	}
 
 	/**
@@ -242,26 +248,21 @@ class Application
 		if ($controllerName == '') {
 			if ($this->currentRoute->getParams() != null && array_key_exists('controller', $this->currentRoute->getParams()))
 				$controllerName = $this->currentRoute->getParams()['controller'];
-			elseif($this->currentRoute->getDefault()!=null)
+			elseif ($this->currentRoute->getDefault() != null)
 				$controllerName = $this->currentRoute->getDefault()->getController();
-			else{
+			else {
 				throw new \Exception("The requested url has a bad route configuration!");
 			}
 		}
 
-		$view = new ViewModel($controllerName);
 		if (array_key_exists($controllerName, $this->invokable))
 			$controllerName = $this->invokable[$controllerName];
 		elseif (strpos($controllerName, 'decoy\base') === false)
 			throw new \Exception('The requested Controller: \'' . $controllerName . '\' is not registered!');
-//		$controller = null;
-//		if (class_exists($controllerName)) {
 		$c = new $controllerName($this);
-		if ($c->getResult() && !in_array($c->identifier, $this->disableRender)) {
+		if ($c->getResult() && !in_array($c->identifier, $this->disableRender) && $this->enableRender) {
 			echo $this->response->output($c);
 		}
-//		} else
-//			throw new \Exception('The requested controller: \'' . $controllerName . '\' is not found! '."\n".'Route: '.json_encode($this->currentRoute->toArray(),JSON_PRETTY_PRINT));
 	}
 
 	/**
@@ -289,11 +290,10 @@ class Application
 		$res = $this->response;
 		$this->response = $responseTemp;
 		return $res->output($instance);
-//		return $instance->getTemplate()->render();
 	}
 
 	/**
-	 *
+	 * Setting up the request body parser
 	 */
 	private function parseRequestBody()
 	{
@@ -371,6 +371,14 @@ class Application
 	public function getCurrentRoute()
 	{
 		return $this->currentRoute;
+	}
+
+	/**
+	 * Disabling ViewRenderers render method
+	 */
+	function disableRender()
+	{
+		$this->enableRender = false;
 	}
 
 	/**

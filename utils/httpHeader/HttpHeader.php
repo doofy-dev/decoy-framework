@@ -114,11 +114,11 @@ class HttpHeader
 	}
 
 	/**
-	 *
+	 * Setting headers
 	 */
 	public function setHeaders(){
-		if($this->content!=null)
-		foreach($this->content as $key=>$value)
-			header(str_replace('_','-',$key).': '.$value);
+		if($this->content!=null && !headers_sent())
+			foreach($this->content as $key=>$value)
+				header(str_replace('_','-',$key).': '.$value);
 	}
 }

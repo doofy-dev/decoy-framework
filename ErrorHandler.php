@@ -8,7 +8,7 @@
 /**
  * Registering error events
  */
-//$OldErrorHandler=set_error_handler("ErrorHandler");
+$OldErrorHandler=set_error_handler("ErrorHandler");
 register_shutdown_function("Shutdown");
 /**
  *	If there was a 50* error, we want to catch it
@@ -29,9 +29,9 @@ function Shutdown(){
 function ErrorHandler($errno, $errstr, $errfile, $errline){
 	/**@TODO: NEED TO TEST
 	if (!(error_reporting() & $errno)) {
-			$error["type"]='E_WARNING';
-		 return;
-	 }*/
+	$error["type"]='E_WARNING';
+	return;
+	}*/
 
 	$error=array("type"=>$errno,"message"=>$errstr,"file"=>$errfile,"line"=>$errline);
 
