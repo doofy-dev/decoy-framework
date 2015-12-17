@@ -4,6 +4,7 @@ Simple PHP framework
 ##Requirements
 - doctrine/orm : 2.4.*   
 - symfony/yaml : 2.*   
+    
 ##Installing
 ###using composer.json:
 	"require": {
