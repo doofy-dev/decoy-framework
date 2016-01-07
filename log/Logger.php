@@ -1,10 +1,4 @@
 <?php
-/**
- * User: Tibi
- * Date: 2015.11.19.
- * Time: 11:23
- */
-
 namespace decoy\log;
 
 
