@@ -168,7 +168,7 @@ class Application
 					$this->getViewsFromModule($this->moduleSettings[$module]['view']);
 			}
 		}
-
+		$this->translator->load();
 		new Autoloader($this->invokable, $this->config['Modules']);
 		$this->router->addRoute('error_page', new Route(array(
 				'controller' => (array_key_exists('error_page_controller', $this->config) ?
