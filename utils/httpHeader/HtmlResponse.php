@@ -30,7 +30,6 @@ class HtmlResponse extends HttpHeader
 			$value->getTemplate()->addVariables($result);
 		else
 		$value->getTemplate()->addVariable('content',$result);
-
 		return $value->getTemplate()->render();
 	}
 }

@@ -157,6 +157,9 @@ class Application
 //			$this->translator->addFolder('src/'.$module.'/language');
 			$path = 'src/' . $module . '/config/config.yml';
 			if (file_exists($path)) {
+				if(file_exists('src/' . $module . 'language'))
+					$this->translator->addFolder('src/' . $module . 'language');
+
 				$this->moduleSettings[$module] = $this->parser->parse(file_get_contents($path));
 				$this->router->assignRoute($this->moduleSettings[$module]['routes']);
 				if (array_key_exists('invokable', $this->moduleSettings[$module]))
@@ -251,7 +254,7 @@ class Application
 			elseif ($this->currentRoute->getDefault() != null)
 				$controllerName = $this->currentRoute->getDefault()->getController();
 			else {
-				throw new \Exception("The requested url has a bad route configuration!");
+				throw new \Exception($this->translator->translate("The requested url has a bad route configuration!"));
 			}
 		}
 

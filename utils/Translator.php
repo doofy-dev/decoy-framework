@@ -6,7 +6,8 @@
  */
 
 namespace decoy\utils;
-
+use Sepia\FileHandler;
+use Sepia\PoParser;
 
 /**
  * Class Translator
@@ -23,21 +24,56 @@ class Translator
 	 */
 	private $locale = "hu_HU";
 
+	private $poFiles = array(
+		'en_US' => array(
+			__DIR__.'/../language/en_US.po'
+		),
+		'hu_HU' => array(
+			__DIR__ . '/../language/hu_HU.po'
+		),
+	);
+
+	private $translations = array();
+
 	/**
 	 * Translator constructor.
 	 */
 	public function __construct()
 	{
-		$this->setLocale($this->locale);
+	}
+
+
+	public function addPoFile($language,$file){
+		if(!array_key_exists($language,$this->poFiles))
+			$this->poFiles[$language]=array();
+		$this->poFiles[$language][]=$file;
+	}
+
+	public function load($lang=null){
+		$this->translations = array();
+		$language = $lang==null? $this->locale : $lang;
+		if (!array_key_exists($language, $this->poFiles)) {
+			foreach($this->poFiles[$language] as $file){
+				$fHandler = new FileHandler('language/' . $this->locale . '.po');
+				$poParser = new PoParser($fHandler);
+				$this->translations = array_merge_recursive($this->translations, $poParser->parse());
+			}
+		}
 	}
 
 	/**
 	 * @param $string
+	 * @param array $params
 	 * @return string
 	 */
-	public function translate($string){
-		echo _($string);
-		return _($string);
+	public function translate($string, array $params = null){
+		if(array_key_exists($string,$this->translations)){
+			if($params==null)
+				return implode($this->translations["The requested url has a bad route configuration!"]['msgstr']);
+			else
+				return vsprintf(implode($this->translations["The requested url has a bad route configuration!"]['msgstr']),$params);
+		}
+		return $string;
 	}
 
 	/**
@@ -45,25 +81,23 @@ class Translator
 	 */
 	public function setLocale($locale){
 		$this->locale = $locale;
-		putenv("LANG=".$locale);
-		setlocale(LC_ALL, $locale);
+		$this->load($this->locale);
 	}
 
 	/**
 	 * @param $folder
 	 */
 	public function addFolder($folder){
-		$this->paths[] = $folder;
-		$this->bindDomain($folder);
+		$files = scandir($folder);
+		foreach ($files as $file) {
+			if(preg_match('/.po$/g',$file)===true){
+				$matches=array();
+				preg_match('/([a-z]{2}_[A-Z]{2})/g',$file,$matches);
+				if(count($matches)>0){
+					$this->addPoFile($matches[0],$folder.'/'.$file);
+				}
+			}
+		}
 	}
 
-	/**
-	 * @param $folder
-	 * @param string $charset
-	 */
-	private function bindDomain($folder, $charset="UTF-8"){
-		bindtextdomain($this->locale, dirname($folder));
-		textdomain($this->locale);
-		bind_textdomain_codeset($this->locale, $charset);
-	}
 }

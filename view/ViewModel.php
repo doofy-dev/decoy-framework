@@ -75,11 +75,12 @@ class ViewModel
 	/**
 	 * Updating the available template paths
 	 * @param array $available
+	 * @param $translator
 	 */
-	public function setAvailable(array $available)
+	public function setAvailable(array $available, $translator)
 	{
 		ViewModel::$availableTemplates = $available;
-//		ViewModel::$translator = $translator;
+		ViewModel::$translator = $translator;
 	}
 
 	/**
@@ -179,7 +180,7 @@ class ViewModel
 	{
 		$bt = debug_backtrace();
 		$result = "";
-		$result .= "<br /><br />Backtrace (most recent call last):<br /><br />\n";
+		$result .= "<br /><br />".$this->translate("Backtrace (most recent call last):")."<br /><br />\n";
 		for ($i = 0; $i <= count($bt) - 1; $i++) {
 			if (!isset($bt[$i]["file"]))
 				$result .= "[PHP core called function]<br />";
