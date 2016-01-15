@@ -156,9 +156,10 @@ class Application
 		foreach ($this->config['Modules'] as $module) {
 //			$this->translator->addFolder('src/'.$module.'/language');
 			$path = 'src/' . $module . '/config/config.yml';
+			$langPath = dirname(dirname(dirname(__DIR__))) . '/src/' . $module . '/language';
+			if (file_exists($langPath))
+				$this->translator->addFolder($langPath);
 			if (file_exists($path)) {
-				if(file_exists('src/' . $module . 'language'))
-					$this->translator->addFolder('src/' . $module . 'language');
 
 				$this->moduleSettings[$module] = $this->parser->parse(file_get_contents($path));
 				$this->router->assignRoute($this->moduleSettings[$module]['routes']);
