@@ -84,6 +84,15 @@ class Translator
 		$this->load($this->locale);
 	}
 
+	public function getLocale(){
+		return $this->locale;
+	}
+
+	public function getTranslations()
+	{
+		return $this->translations;
+	}
+
 	/**
 	 * @param $folder
 	 */
