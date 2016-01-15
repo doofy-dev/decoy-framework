@@ -117,8 +117,10 @@ class Translator
 		foreach ($files as $file) {
 			if(preg_match('/.po$/g',$file)===true){
 				$matches=array();
+				echo "testing $file<br>";
 				preg_match('/([a-z]{2}_[A-Z]{2})/g',$file,$matches);
 				if(count($matches)>0){
+					echo "adding path $matches[0]<br>";
 					$this->addPoFile($matches[0],$folder.'/'.$file);
 				}
 			}
