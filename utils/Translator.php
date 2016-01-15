@@ -94,6 +94,22 @@ class Translator
 	}
 
 	/**
+	 * @return array
+	 */
+	public function getPoFiles()
+	{
+		return $this->poFiles;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getPaths()
+	{
+		return $this->paths;
+	}
+
+	/**
 	 * @param $folder
 	 */
 	public function addFolder($folder){
